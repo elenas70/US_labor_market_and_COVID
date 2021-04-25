@@ -24,7 +24,7 @@ options(scipen = 999, digits = 2)
 
 ```
 
-<!--[<font size="4">`r icons::fontawesome("github")`</font>](https://github.com/elenas70/us_labor_market_history)-->
+[<font size="4">`r icons::fontawesome("github")`</font>](https://github.com/elenas70/us_labor_market_and_COVID)
 [<font size="4">`r icons::fontawesome("linkedin")`</font>](https://www.linkedin.com/in/estolpovsky/)
 [<font size="4">EconBlog</font>](https://elenas70.github.io/econblog/)
 

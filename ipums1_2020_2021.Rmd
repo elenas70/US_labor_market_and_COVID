@@ -9,6 +9,8 @@ output:
     code_folding: hide
 bibliography: references.bib
 link-citations: true
+nocite: | 
+   @Stolpovsky_geography, @Stolpovsky_historical_unemployment
 ---
 
 <base target="_top"/>
@@ -23,16 +25,18 @@ options(scipen = 999,
 
 ```
 
-<!--[<font size="4">`r icons::fontawesome("github")`</font>](https://github.com/elenas70/us_labor_market_history)-->
+[<font size="4">`r icons::fontawesome("github")`</font>](https://github.com/elenas70/us_labor_market_and_COVID)
 [<font size="4">`r icons::fontawesome("linkedin")`</font>](https://www.linkedin.com/in/estolpovsky/)
 [<font size="4">EconBlog</font>](https://elenas70.github.io/econblog/)
 
 
-### Changes in the Labor Market in 2020
+### Changes in the U.S. Labor Market in 2020–2021
 
-The ongoing COVID-19 pandemic and the economic restrictions imposed by the governments are causing unemployment and a reduction in the labor force. April 2020 was the most difficult month in terms of unemployment and exits out of the labor force, with unemployment rate for men reaching 13% and that of women reaching 16% across the United States. 
+The COVID-19 pandemic led to a decline in economic activity, a fall in demand for labor and a decline in the ability and willingness of people to work in the market. These changes are reflected in high unemployment and reduced labor force participation. 
 
-Labor force participation rates of men and women fell by 3 percentage points between February and April 2020. Labor force participation and employment numbers gradually improved from April to October 2020, and stagnated or deteriorated in November 2020 - January 2021. The last two months of 2020 saw a slight decline in labor force participation and employment, and no significant reduction in unemployment rates.
+Unemployment peaked in April 2020, with male unemployment rate at 13% and that of women at 16%. There was great variability in unemployment rates by state, ranging from 6% in Wyoming to 30% in Nevada ([2021](https://rpubs.com/elenas70/unemployment_by_state)). Labor force participation rates fell by 3 percentage points between February and April 2020, with female labor force participation rate dropping to 55%, and that of men, to 66%.
+
+Unemployment rates went down to 7% by October 2020, and were at 6–7% in March 2021. Similarly, labor force participation rates recovered 2 of the 3 percentage points lost in April 2020 by October 2020, and remained relatively constant after October 2020.
 
 <!-- For a historical analysis of labor force participation by gender based on see [Labor Force Participation in the U.S. 1976-2000. Why out of the Labor Force?]()-->
 
@@ -42,10 +46,10 @@ Labor force participation rates of men and women fell by 3 percentage points bet
 The data for this analysis come from the [Current Population Survey](https://cps.ipums.org/cps/) (CPS). CPS is a monthly survey run by the Census Bureau with questions about demographic and economic characteristics of the U.S. population. CPS is used to calculate the monthly federal statistics on unemployment. I obtain the data from the Integrated Public Use Microdata Series database [-@ipums2020]. 
 
 
-My sample consists of CPS monthly core employment data for January 2020–February 2021. Each monthly sample includes individual and household weights, which allow inferences about the population from the samples. I discuss CPS weights and examine the weight distribution in the [Appendix](#weights).
-```{r}
+My sample consists of CPS monthly core employment data for January 2020–March 2021. Each sample includes individual and household weights, which allow inferences about the population from the samples. I discuss CPS weights and examine the weight distribution in the [Appendix](#weights).
+```{r include=FALSE}
 library(ipumsr)
-ddi <- read_ipums_ddi("cps_00016.xml")
+ddi <- read_ipums_ddi("cps_00018.xml")
 d <- read_ipums_micro(ddi)
 ```
 
@@ -79,19 +83,19 @@ months <- length(unique(d$year_month))
 individuals <- nrow(d)
 families <- length(unique(d$famid))
 ```
-The `r months` monthly surveys contain in total about `r format(round(individuals,-3), big.mark=",")` observations of individuals, or about `r format(round(individuals/months,-3), big.mark=",")` individuals per month. The individuals are part of about `r format(round(families,-3), big.mark=",")` observations of households, or about `r format(round(families/months,-3), big.mark=",")` households per month. 
+The `r months` monthly surveys contain in total about `r format(round(individuals,-3), big.mark=",")` observations of individuals, or about `r format(round(individuals/months,-3), big.mark=",")` individuals per month. The observations of individuals are part of about `r format(round(families,-3), big.mark=",")` observations of households, or about `r format(round(families/months,-3), big.mark=",")` households per month. 
 
 
 The Bureau of Labor Statistics defines **labor force participation rate** as a percentage of civilian noninstitutional population age 16 or older that is in the labor force. **Unemployment rate** is the percentage of those in the labor force that are unemployed. 
 
 
-The unemployment rate is an imperfect indicator of the effect of a social or economic shock on employment, because the denominator of the rate, the number of people in the labor force, is also affected by the shock. I calculate an alternative measure, **employment rate**, or the percentage of all relevant individuals that is employed. The relevant group is the civilian noninstitutional population age 16 or older. 
+The unemployment rate is an imperfect indicator of the effect of a social or economic shock on employment, because the denominator of the rate, the number of people in the labor force, is also affected by the shock. I calculate an alternative measure, **employment rate**, or the percentage of the adult civilian noninstitutional population that is employed. 
 
- I calculate the population labor market rates, standard errors and confidence intervals from sample data with sampling weights using the R package [srvyr](https://cran.r-project.org/web/packages/srvyr/srvyr.pdf)[@srvyr2020]. The population-level statistics are calculated as weighted sample means and standard errors of the mean using the Horvitz-Thompson estimator [@lamley2010 p. 5, 221–22)].
+The population labor market rates, standard errors and confidence intervals are calculated using the R package [srvyr](https://cran.r-project.org/web/packages/srvyr/srvyr.pdf) [@srvyr2020]. I use the Horvitz-Thompson estimator [@lamley2010 p. 5, 221–22)] to compute  population-level statistics as weighted sample means and standard errors of the mean.
  
-### Labor Force Participation, Unemployment and Employment Rates {#stats}
+### Labor Market Impacts of COVID{#stats}
 
-Labor force participation rate fell from 63% in January 2020 to 60% in April 2020. In February 2021 it was  and was 62% in December. Sixty one percent of civilian noninstitutionalized population age 16 and over was employed at the beginning of 2020. In April employment rate was 51%, and in December it was 58%. Unemployment rate was 4% before the COVID impact, peaked at 15% in April and was at 7% in December. 
+Labor force participation rate fell from 63% in February 2020 to 60% in April 2020 and recovered to 62% by March 2021. Employment rate lost 10 percentage points between February and April 2020, falling from 61% to 51% of adult population. Employment rate mostly recovered, reaching 58% in March 2021. Unemployment rate was 4% in February 2020, peaked at 15% in April 2020 and came down to 6% by March 2021. 
 
 
 ```{r}
@@ -129,7 +133,7 @@ survey_monthly[, -c(1:2)] <-
 library(DT)
 tab <-
   survey_monthly %>% mutate(
-   YEAR = as.integer(YEAR),
+    YEAR = as.integer(YEAR),
     MONTH = MONTH,
     month = month.abb[MONTH],
     lfp_rate = round(as.numeric(lfp_rate), 3),
@@ -138,13 +142,13 @@ tab <-
     employment_rate_se = round(as.numeric(employment_rate_se), 3),
     unemployment_rate = round(as.numeric(unemployment_rate), 3),
     unemployment_rate_se = round(as.numeric(unemployment_rate_se), 3)
-  ) %>% relocate(month, .after=MONTH)
+  ) %>% relocate(month, .after = MONTH)
 
 
 
 DT::datatable(
   tab,
-  caption = "Labor Force Participation, Employment and Unemployment Rates in 2020",
+  caption = "Labor Force Participation, Employment and Unemployment Rates in 2020–2021",
   colnames = c(
     "Year",
     "Month Number",
@@ -159,20 +163,31 @@ DT::datatable(
   rownames = FALSE,
   filter = "top",
   extensions = 'Buttons',
-  
-  options = list(dom = 'Blfrtip',
+  options = list(dom = 'Blrtip',
                  buttons = c('copy', 'csv', 'excel'))
-) %>% formatPercentage(c("lfp_rate", "lfp_rate_se","employment_rate","employment_rate_se" ,"unemployment_rate","unemployment_rate_se"), 1)
+) %>% formatPercentage(
+  c(
+    "lfp_rate",
+    "lfp_rate_se",
+    "employment_rate",
+    "employment_rate_se" ,
+    "unemployment_rate",
+    "unemployment_rate_se"
+  ),
+  1
+)
 
 ```
 *Source: Current Population Survey  [-@ipums2020]*\
 Estimates and standard errors are calculated using estimation methods for survey data with sampling weights [@lamley2010; @srvyr2020]. 
 
-### Labor Force Statistics by Sex
+### The Differences in Labor Market Statistics by Sex
 
-The male labor force participation rate was 11 percentage points higher than that of women in the beginning of 2020. This gap did not change significantly throughout 2020, although labor force participation for both sexes fell by 2 percentage points between January and December 2020.
+In the beginning of 2020 male labor force participation rate was 11 percentage points higher than that of women. This gap did not change throughout 2020–2021, as the labor force participation rates for both sexes dropped 3 percentage points in April 2020 and recovered 2 percentage points by March 2021.
 
-The 2020 recession is unique in that it led to a greater unemployment shock for women than for men. Past U.S. recessions since the 1970s were marked by high unemployment among all labor force participants, but particularly among men. 
+The 2020 recession is unique in recent history in that it led to a greater unemployment shock for women than for men. Past U.S. recessions since the 1970s were characterized by higher peak unemployment rates among men ([2021](https://rpubs.com/elenas70/historical_unemployment)). High unemployment and low labor force participation rates for women combined in April 2020 in a labor market where only 46% of adult women were employed. 
+
+Female employment rate was 53% in March 2021, 10 percentage points below male employment rate. The gap is explained partially by the historical gap in labor force participation rates between sexes. In addition, in a pandemic when families have to balance careers with caring for children and elderly, compromises may include exits from the labor market by lower earners and traditional caregivers, typically women.
 
 ```{r}
 
@@ -197,7 +212,7 @@ library(srvyr)
 
  survey_monthly[,-c(1,2)] <- lapply(survey_monthly[,-c(1,2)],percent,0)#format all columns except the Month Number as percentages
  
-survey_monthly$Time <- seq(from=as.Date("2020/1/1"), to=as.Date("2021/2/1"), by="month") %>% as.yearmon()
+survey_monthly$Time <- seq(from=as.Date("2020/1/1"), to=as.Date("2021/3/1"), by="month") %>% as.yearmon() #Need to change the "to" date as new data becomes available
 
  p <-
   ggplot(survey_monthly, aes(Time)) + geom_line(aes(
@@ -283,12 +298,38 @@ survey_monthly <-
   )
 
 survey_monthly[, -1] <- lapply(survey_monthly[, -1], percent, 1)
+```
 
-table_input <-
-  survey_monthly %>% mutate(MONTH = month.abb[MONTH]) %>% kbl(
-    caption = "Labor Market Statistics by Sex in 2020–20201",
-    col.names = c("Year","Month",
-      "Lfp Rate Men",
+```{r}
+tab <-
+  survey_monthly %>% mutate(
+    YEAR = as.integer(YEAR),
+    MONTH = as.integer(MONTH),
+    month = month.abb[MONTH],
+    lfp_rate_men = round(as.numeric(lfp_rate_men), 3),
+    lfp_rate_se_men = round(as.numeric(lfp_rate_se_men), 3),
+    lfp_rate_women = round(as.numeric(lfp_rate_women), 3),
+    lfp_rate_se_women = round(as.numeric(lfp_rate_se_women), 3),
+    employment_rate_men = round(as.numeric(employment_rate_men), 3),
+    employment_rate_se_men = round(as.numeric(employment_rate_se_men), 3),
+    employment_rate_women = round(as.numeric(employment_rate_women), 3),
+    employment_rate_se_women = round(as.numeric(employment_rate_se_women), 3),
+    unemployment_rate_men = round(as.numeric(unemployment_rate_men), 3),
+    unemployment_rate_se_men = round(as.numeric(unemployment_rate_se_men), 3),
+    unemployment_rate_women = round(as.numeric(unemployment_rate_women), 3),
+    unemployment_rate_se_women = round(as.numeric(unemployment_rate_se_women), 3)
+  ) %>% relocate(month, .after = MONTH)
+
+
+
+DT::datatable(
+  tab,
+  caption = "Labor Market Statistics by Sex in 2020–2021",
+  colnames = c(
+    "Year",
+    "Month Number",
+    "Month",
+    "Lfp Rate Men",
       "Std. Error",
       "Lfp Rate Women",
       "Std. Error",
@@ -300,23 +341,39 @@ table_input <-
       "Std. Error",
       "Unemp Rate Women",
       "Std. Error"
-    )
-  ) %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-
-scroll_box(
-  table_input,
-  height = "290px",
-  width = NULL,
-  box_css = "border: 1px solid #ddd; padding: 5px; ",
-  fixed_thead = T
+  ),
+  rownames = FALSE,
+  filter = "top",
+  extensions = 'Buttons',
+  
+  options = list(dom = 'Blrtip',
+                 buttons = c('copy', 'csv', 'excel'))
+) %>% formatPercentage(
+  c(
+    "lfp_rate_men",
+    "lfp_rate_se_men",
+    "lfp_rate_women",
+    "lfp_rate_se_women",
+    "employment_rate_men",
+    "employment_rate_se_men" ,
+    "employment_rate_women",
+    "employment_rate_se_women" ,
+    "unemployment_rate_men",
+    "unemployment_rate_se_men",
+    "unemployment_rate_women",
+    "unemployment_rate_se_women"
+  ),
+  1
 )
+
+
 
 ```
 *Source: Current Population Survey  [-@ipums2020]*\
 Estimates and standard errors are calculated using estimation methods for survey data with sampling weights [@lamley2010; @srvyr2020]. 
 
 
-In [the next part of the analysis of the U.S. labor market in 2020](https://rpubs.com/elenas70/labormarket2020part2) I examine the geographic distribution of unemployment throughout 2020 and discuss the reasons why some regions have been impacted more and have been slower to recover than others.  
+In [the next part of the analysis of the U.S. labor market during the COVID pandemic](https://rpubs.com/elenas70/unemployment_by_state) I examine the geographic distribution of unemployment and discuss the reasons why some regions have been impacted more and have been slower to recover than others.  
 
 
 ### Appendix: Current Population Survey Weights {#weights}
@@ -356,21 +413,25 @@ ggplotly(p, height = 300, width = 600)
 *Source: Current Population Survey  [-@ipums2020]*
 
 ```{r}
-table_input <-
-  d %>% group_by(YEAR, MONTH) %>% summarize(format(n(), big.mark = ","), round(mean(iweight), 2)) %>%
-  mutate(MONTH = paste(month.abb[MONTH], "2020")) %>% kbl(
-    caption = "Number of Individual Records and Record Weights",
-    col.names = c("Year","Month", "Number of Individuals", "Average Normalized Weight")
-  ) %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+tab <-
+  d %>% group_by(YEAR, MONTH) %>% summarize(observations=format(n(), big.mark = ","),weight= round(mean(iweight), 2)) %>%
+  mutate(YEAR = as.integer(YEAR),
+    MONTH = as.integer(MONTH), month =month.abb[MONTH]
+    
+    )  %>% relocate(month, .after = MONTH)
+
+DT::datatable(
+  tab,
+  caption = "Number of Individual Records and Record Weights",
+  colnames = c("Year","Month Number","Month", "Number of Individuals", "Average Normalized Weight"),
+  rownames = FALSE,
+  filter = "top",
+  extensions = 'Buttons',
+  options = list(dom = 'Blrtip',
+                 buttons = c('copy', 'csv', 'excel'))
+) 
 
 
-scroll_box(
-  table_input,
-  height = "250px",
-  width = NULL,
-  box_css = "border: 1px solid #ddd; padding: 5px; ",
-  fixed_thead = T
-)
   
 ```
 *Source: Current Population Survey  [-@ipums2020]*
@@ -378,7 +439,7 @@ scroll_box(
 In April - June 2020 CPS data was collected exclusively by phone and response rates fell. Starting July 2020 in-person interviews began in some areas, and in September 2020 they expanded to all areas. Sample sizes were lower in March–August 2020, and the responses during these months were weighted higher.
 
 
-The next part of this analysis: [The Geography of Unemployment in 2020–2021](https://rpubs.com/elenas70/labormarket2020part2)
+The next part of this analysis: [The Geography of Unemployment in 2020–2021](https://rpubs.com/elenas70/unemployment_by_state)
 
 <a href="#top">Back to top</a>
 
