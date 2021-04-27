@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/749653/97a4c96ba12e495188dc9b551719bfde
+bundleId: https://api.rpubs.com/api/v1/document/749653/97a4c96ba12e495188dc9b551719bfde
+url: http://rpubs.com/elenas70/749653
+when: 1619566100.79798
+lastSyncTime: 1619566100.79798

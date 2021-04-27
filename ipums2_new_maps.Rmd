@@ -10,7 +10,7 @@ output:
 bibliography: references.bib
 link-citations: true
 nocite: | 
-   @tourism2020, @reno2020, @Stolpovsky12021
+   @tourism2020, @reno2020, @Stolpovsky12021, @ipums2020, hawaiitourism2021
 ---
 
 
@@ -24,15 +24,14 @@ options(scipen = 999, digits = 2)
 
 ```
 
+[<font size="4">EconBlog</font>](https://elenas70.github.io/econblog/)
 [<font size="4">`r icons::fontawesome("github")`</font>](https://github.com/elenas70/us_labor_market_and_COVID)
 [<font size="4">`r icons::fontawesome("linkedin")`</font>](https://www.linkedin.com/in/estolpovsky/)
-[<font size="4">EconBlog</font>](https://elenas70.github.io/econblog/)
-
 
 ```{r include=FALSE}
 # memory.limit(10000000)
 # library(ipumsr)
-# ddi <- read_ipums_ddi("cps_00016.xml")
+# ddi <- read_ipums_ddi("cps_00018.xml")
 # d <- read_ipums_micro(ddi)
 ```
 
@@ -73,18 +72,16 @@ options(scipen = 999, digits = 2)
 #                period_num)
 ```
 
-### The Impact of the COVID Pandemic on Unemployment in 2020–2021
+### The Impact of the COVID Pandemic on U.S Unemployment
 
-The COVID pandemic has led to unemployment spikes and prolonged high unemployment throughout the U.S. Some states have been impacted more than others. The states that stand out in their adverse reaction to the limitations and behavioral changes due to the pandemic are the states heavily dependent on tourism and entertainment, in particular Nevada and Hawaii. During the month of peak unemployment, in April 2020, Nevada had the highest unemployment rates among all U.S. states, at 30%, Michigan had the next highest unemployment rate, at 24%, and in Hawaii unemployment reached 22%. In February 2021 unemployment rate in Michigan was close to its pre-pandemic level, at 5%. Nevada and Hawaii were still among the 10 states with highest unemployment rates in February 2021, at 8-9%. Before the pandemic unemployment rates in these states were 3-4%.
+The COVID pandemic brought high and persistent unemployment throughout the U.S. All states have been impacted, with unemployment more than doubling during April–May 2020 even for moderately impacted states, such as Nebraska and Wyoming. The states heavily dependent on tourism and entertainment, Nevada and Hawaii, had some of the highest peak unemployment, at 30% in Nevada and 22% in Hawaii in April 2020. These states were also among the slowest to recover, with unemployment rates over 8% in March 2021.
 
-economic impact of the pandemic in the U.S. varied greatly depending on the state of residence. I look at U.S. unemployment dynamics starting in January 2020 focusing on regional differences in the size of the initial shock to employment and the speed of recovery. The data come from the Current Population Survey [@ipums2020] — a monthly survey administered by the Census Bureau and used to calculate the official unemployment statistics.
-
-Non-coastal Northwestern states with low population densities such as North and South Dakota, Nebraska, and Wyoming had unemployment rates below 10% during peak unemployment months, and returned to 3-6% unemployment rates in December. California, New York, and New Jersey with high population densities and large urban centers had unemployment rates above 10% throughout most of 2020 and 7-9% unemployment rates in December.
+Another group of states with high peak unemployment and slow recovery were states with large urban centers and high population density, such as California, New York, and New Jersey. Unemployment levels in each state were also affected by local development of the pandemic, state economic policies and seasonal fluctuations in unemployment rates. 
 
 
-Some of the states impacted the most were the states with a high share of workers in entertainment, tourism and food service. Nevada, with 16% of GDP from tourism, had the highest peak in unemployment, 30% in April 2020. The industries particularly hit by COVID in Nevada were food and beverage and tourism ([2020](#reno2020)). Hawaii had an unemployment rate of 22% in April, and has been the slowest state to recover, with unemployment rate at 10% in December 2020.
+### Data and Methodology
 
-In most states unemployment peaked in April or May and declined throughout the rest of the year, until October or November. December saw an increase in unemployment rates in many states including California, New Mexico, Illinois, Rhode Island, Michigan, Colorado and Washington. 
+The data come from the [Current Population Survey](https://cps.ipums.org/cps/) (CPS)— a monthly survey administered by the Census Bureau and used by the Bureau of Labor Statistics to calculate the official unemployment statistics. The sample consists of CPS monthly core employment data for January 2020–March 2021. Each monthly sample includes individual and household weights, which allow inferences about the population from the samples. I describe the use of weights in the calculation of population unemployment rates in the [fist part of the analysis of the labor market impact of COVID](https://rpubs.com/elenas70/labor_market_effect_of_COVID).
 
 
 
@@ -109,9 +106,16 @@ In most states unemployment peaked in April or May and declined throughout the r
 ```
 
 
-### Mapping Unemployment Over Time, January 2020–February 2021
+### Unemployment Rates by State, January 2020–March 2021
 
-The maps below show the changes in unemployment rates in the contiguous U.S. by state during 2020. The states in non-coastal Northwest had a smaller spike in unemployment and quicker recovery. States with large metropolitan centers, such as California, New York, and Illinois and states heavily depend on tourism, including Nevada and Hawaii, were still experiencing high unemployment rates, 8-10%, in December 2020.
+The maps and the table below show monthly unemployment rates by state starting January 2020. In most states unemployment peaked in April–May 2020 and declined until October or November 2020. December 2020–February 2021 saw no statistically significant reduction, and some increases in unemployment rates in the high-population states of California, Texas, Florida, New York, Pennsylvania and Illinois. March 2021 brought a reduction in unemployment in most states. The unemployment rate for the U.S as a whole was 6.2% in March 2021, compared to 4.6% in March 2020, or 3.8% in February 2020, before the pandemic started to affect the economy [-@Stolpovsky12021].
+
+The states in the central U.S., in particular, the Northern Central states, had a smaller spike in unemployment and quicker recovery. Coastal states, states with large metropolitan areas and states dependent on tourism had a more dramatic and prolonged impact.
+
+Non-coastal Northwestern states, North and South Dakota, Minnesota, Nebraska, and Wyoming, had unemployment rates below 10% during peak unemployment months, and returned to 3-5% unemployment rates in March 2021. California, New York, and New Jersey had unemployment rates above 10% throughout most of 2020 and were still experiencing high unemployment rates, 8-9%, in March 2021.
+
+Some of the states impacted the most were the states with a high share of workers in entertainment, tourism and food service. Nevada, with 16% of GDP from tourism, had the highest peak in unemployment, 30% in April 2020. The industries particularly hit by COVID in Nevada were food and beverage and tourism ([2020](#references)). Hawaii had an unemployment rate of 22% in April, and has been the slowest state to recover, with unemployment rate at 11% in January 2021. Unemployment in Hawaii was 8% in March 2021, reflecting the fact that tourist activity in Hawaii was still substantially below its level before the pandemic ([2021](#references)).
+
 
 
 ```{r}
@@ -196,10 +200,10 @@ ggplotly(p,  height = 800,
 ```
 *Source: Current Population Survey: https://cps.ipums.org*
 
-### Unemployment Rates and Standard Errors for January 2020–February 2021
+### Unemployment Rates and Standard Errors for January 2020–March 2021
 
 
-The tables below shows unemployment rates in February (before the economic impact of the pandemic), April (peak unemployment month for most states) and in February 2021.
+The table below includes unemployment rates in January 2020–March 2021 for 51 U.S. states.
 
 ```{r}
 load("tab.RData")
@@ -208,8 +212,8 @@ library(DT)
 tab <- tab %>% mutate(
   year = as.integer(year),
   month_num = as.integer(month_num),
-  unemployment_rate = round(as.numeric(unemployment_rate), 2),
-  "unemployment_rate_se" = round(as.numeric(unemployment_rate_se), 2)
+  unemployment_rate = round(as.numeric(unemployment_rate), 4),
+  "unemployment_rate_se" = round(as.numeric(unemployment_rate_se), 4)
 ) %>% select(-period_num,-period)
 
 DT::datatable(
@@ -234,6 +238,5 @@ DT::datatable(
 
 <a href="#top">Back to top</a>
 
-### References {#reno2020}
-
+### References {#references}
 
